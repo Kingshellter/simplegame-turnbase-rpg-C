@@ -1,6 +1,6 @@
 // M. Maulana Gian Pranaja
 // L0123077
-// Kelas CS
+// Kelas C
 
 // library yg digunakan
 #include <stdio.h>
@@ -91,7 +91,7 @@ void tampilkanInventory(Item *inventory, int jumlahItem)
 }
 
 // fungsi HP bar player
-void HPplayer(int currentHealth, int maxHealth)
+void HP(int currentHealth, int maxHealth)
 {
     int barLength = 20; // Panjang total health bar
     int barFill = (int)((double)currentHealth / maxHealth * barLength);
@@ -109,107 +109,6 @@ void HPplayer(int currentHealth, int maxHealth)
         }
     }
     printf("] %d/%d\n", currentHealth, maxHealth);
-}
-
-// fungsi HP bar musuh
-void HPpion(int currenthealth, int maxhealth)
-{
-    int barlength = 20;
-    int barfill = (int)((double)currenthealth / maxhealth * barlength);
-
-    printf("HP pion: [");
-    for (int i = 0; i < barlength; i++)
-    {
-        if (i < barfill)
-        {
-            printf("=");
-        }
-        else
-        {
-            printf("-");
-        }
-    }
-    printf("] %d/%d\n", currenthealth, maxhealth);
-}
-
-void HPgiant(int currenthealth, int maxhealth)
-{
-    int barlength = 20;
-    int barfill = (int)((double)currenthealth / maxhealth * barlength);
-
-    printf("HP giant: [");
-    for (int i = 0; i < barlength; i++)
-    {
-        if (i < barfill)
-        {
-            printf("=");
-        }
-        else
-        {
-            printf("-");
-        }
-    }
-    printf("] %d/%d\n", currenthealth, maxhealth);
-}
-
-void HPpikachu(int currenthealth, int maxhealth)
-{
-    int barlength = 20;
-    int barfill = (int)((double)currenthealth / maxhealth * barlength);
-
-    printf("HP pikachu : [");
-    for (int i = 0; i < barlength; i++)
-    {
-        if (i < barfill)
-        {
-            printf("=");
-        }
-        else
-        {
-            printf("-");
-        }
-    }
-    printf("] %d/%d\n", currenthealth, maxhealth);
-}
-
-void HPspiderbunny(int currenthealth, int maxhealth)
-{
-    int barlength = 20;
-    int barfill = (int)((double)currenthealth / maxhealth * barlength);
-
-    printf("HP spiderbunny: [");
-    for (int i = 0; i < barlength; i++)
-    {
-        if (i < barfill)
-        {
-            printf("=");
-        }
-        else
-        {
-            printf("-");
-        }
-    }
-    printf("] %d/%d\n", currenthealth, maxhealth);
-}
-
-void HPeviltank(int currenthealth, int maxhealth)
-{
-    int barlength = 20;
-    int barfill = (int)((double)currenthealth / maxhealth * barlength);
-
-    printf("HP eviltank: [");
-    for (int i = 0; i < barlength; i++)
-    {
-        if (i < barfill)
-        {
-            printf("=");
-        }
-        else
-        {
-            printf("-");
-        }
-    }
-    printf("] %d/%d\n", currenthealth, maxhealth);
 }
 
 // fungsi mana player
@@ -541,7 +440,7 @@ int main()
     // player, enemy, item
     srand(time(NULL));
     int randomattackplayer = rand() % 35 + 20;
-    int randomattackpion = rand() % 30 + 10;
+    int randomattackpion = rand() % 30 + 15;
     int randomattackgiant = rand() % 35 + 15;
     int randomattackpikachu = rand() % 40 + 15;
     int randomattackspiderbunny = rand() % 40 + 20;
@@ -572,12 +471,13 @@ int main()
     printf("                     abyss floor 1                    \n");
     while (slime.currenthealth > 0 && pion.currenthealth > 0)
     {
-        recoverMana(&slime, 15);
+        recoverHP(&slime, 5);
+        recoverMana(&slime, 5);
         lantai1();
-        HPplayer(slime.currenthealth, slime.maxhealth);
+        HP(slime.currenthealth, slime.maxhealth);
         playermana(slime.currentmana, slime.maxmana);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        HPpion(pion.currenthealth, pion.maxhealth);
+        HP(pion.currenthealth, pion.maxhealth);
         printf("====================== BATTLE ======================\n");
         printf("giliran mu\n");
         printf("1. serang \n2. bertahan \npilih : ");
@@ -586,7 +486,7 @@ int main()
         {
         case 1:
             attack(&slime, &pion);
-            HPpion(pion.currenthealth, pion.maxhealth);
+            HP(pion.currenthealth, pion.maxhealth);
 
             if (pion.currenthealth <= 0)
             {
@@ -609,7 +509,7 @@ int main()
         {
             printf("\nenemy turn\n");
             attack(&pion, &slime);
-            HPplayer(slime.currenthealth, slime.maxhealth);
+            HP(slime.currenthealth, slime.maxhealth);
             if (slime.currenthealth <= 0)
             {
                 printf("Player has been defeated!\n");
@@ -633,12 +533,12 @@ int main()
     while (slime.currenthealth > 0 && giant.currenthealth > 0)
     {
         recoverHP(&slime, 5);
-        recoverMana(&slime, 15);
+        recoverMana(&slime, 5);
         lantai2();
-        HPplayer(slime.currenthealth, slime.maxhealth);
+        HP(slime.currenthealth, slime.maxhealth);
         playermana(slime.currentmana, slime.maxmana);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        HPgiant(giant.currenthealth, giant.maxhealth);
+        HP(giant.currenthealth, giant.maxhealth);
         printf("====================== BATTLE ======================\n");
         printf("giliran mu\n");
         tampilkanInventory(inventory, jumlahitem);
@@ -649,7 +549,7 @@ int main()
         {
         case 1:
             attack(&slime, &giant);
-            HPgiant(giant.currenthealth, giant.maxhealth);
+            HP(giant.currenthealth, giant.maxhealth);
 
             if (giant.currenthealth <= 0)
             {
@@ -663,7 +563,7 @@ int main()
             if (slime.currentmana >= 25)
             {
                 skill1(&slime, &giant);
-                HPgiant(giant.currenthealth, giant.maxhealth);
+                HP(giant.currenthealth, giant.maxhealth);
                 slime.currentmana -= 25;
                 if (giant.currenthealth <= 0)
                 {
@@ -682,7 +582,7 @@ int main()
             if (slime.currentmana >= 40)
             {
                 skill2(&slime, &giant);
-                HPgiant(giant.currenthealth, giant.maxhealth);
+                HP(giant.currenthealth, giant.maxhealth);
                 slime.currentmana -= 40;
                 if (giant.currenthealth <= 0)
                 {
@@ -701,7 +601,7 @@ int main()
             if (slime.currentmana >= 70)
             {
                 skill3(&slime, &giant);
-                HPgiant(giant.currenthealth, giant.maxhealth);
+                HP(giant.currenthealth, giant.maxhealth);
                 slime.currentmana -= 70;
                 if (giant.currenthealth <= 0)
                 {
@@ -735,7 +635,7 @@ int main()
         {
             printf("\nenemy turn\n");
             attack(&giant, &slime);
-            HPplayer(slime.currenthealth, slime.maxhealth);
+            HP(slime.currenthealth, slime.maxhealth);
             if (slime.currenthealth <= 0)
             {
                 printf("Player has been defeated!\n");
@@ -756,12 +656,12 @@ int main()
     while (slime.currenthealth > 0 && pikachu.currenthealth > 0)
     {
         recoverHP(&slime, 5);
-        recoverMana(&slime, 15);
+        recoverMana(&slime, 5);
         lantai3();
-        HPplayer(slime.currenthealth, slime.maxhealth);
+        HP(slime.currenthealth, slime.maxhealth);
         playermana(slime.currentmana, slime.maxmana);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        HPpikachu(pikachu.currenthealth, pikachu.maxhealth);
+        HP(pikachu.currenthealth, pikachu.maxhealth);
         printf("====================== BATTLE ======================\n");
         printf("giliran mu\n");
         tampilkanInventory(inventory, jumlahitem);
@@ -772,7 +672,7 @@ int main()
         {
         case 1:
             attack(&slime, &pikachu);
-            HPpikachu(pikachu.currenthealth, pikachu.maxhealth);
+            HP(pikachu.currenthealth, pikachu.maxhealth);
 
             if (pikachu.currenthealth <= 0)
             {
@@ -786,7 +686,7 @@ int main()
             if (slime.currentmana >= 25)
             {
                 skill1(&slime, &pikachu);
-                HPpikachu(pikachu.currenthealth, pikachu.maxhealth);
+                HP(pikachu.currenthealth, pikachu.maxhealth);
                 slime.currentmana -= 25;
                 if (pikachu.currenthealth <= 0)
                 {
@@ -805,7 +705,7 @@ int main()
             if (slime.currentmana >= 40)
             {
                 skill2(&slime, &pikachu);
-                HPpikachu(pikachu.currenthealth, pikachu.maxhealth);
+                HP(pikachu.currenthealth, pikachu.maxhealth);
                 slime.currentmana -= 40;
                 if (pikachu.currenthealth <= 0)
                 {
@@ -824,7 +724,7 @@ int main()
             if (slime.currentmana >= 70)
             {
                 skill3(&slime, &pikachu);
-                HPpikachu(pikachu.currenthealth, pikachu.maxhealth);
+                HP(pikachu.currenthealth, pikachu.maxhealth);
                 slime.currentmana -= 70;
                 if (pikachu.currenthealth <= 0)
                 {
@@ -858,7 +758,7 @@ int main()
         {
             printf("\nenemy turn\n");
             attack(&pikachu, &slime);
-            HPplayer(slime.currenthealth, slime.maxhealth);
+            HP(slime.currenthealth, slime.maxhealth);
             if (slime.currenthealth <= 0)
             {
                 printf("Player has been defeated!\n");
@@ -879,12 +779,12 @@ int main()
     while (slime.currenthealth > 0 && spiderbunny.currenthealth > 0)
     {
         recoverHP(&slime, 5);
-        recoverMana(&slime, 15);
+        recoverMana(&slime, 5);
         lantai4();
-        HPplayer(slime.currenthealth, slime.maxhealth);
+        HP(slime.currenthealth, slime.maxhealth);
         playermana(slime.currentmana, slime.maxmana);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        HPspiderbunny(spiderbunny.currenthealth, spiderbunny.maxhealth);
+        HP(spiderbunny.currenthealth, spiderbunny.maxhealth);
         printf("====================== BATTLE ======================\n");
         printf("giliran mu\n");
         tampilkanInventory(inventory, jumlahitem);
@@ -895,7 +795,7 @@ int main()
         {
         case 1:
             attack(&slime, &spiderbunny);
-            HPspiderbunny(spiderbunny.currenthealth, spiderbunny.maxhealth);
+            HP(spiderbunny.currenthealth, spiderbunny.maxhealth);
 
             if (spiderbunny.currenthealth <= 0)
             {
@@ -909,7 +809,7 @@ int main()
             if (slime.currentmana >= 25)
             {
                 skill1(&slime, &spiderbunny);
-                HPspiderbunny(spiderbunny.currenthealth, spiderbunny.maxhealth);
+                HP(spiderbunny.currenthealth, spiderbunny.maxhealth);
                 slime.currentmana -= 25;
                 if (spiderbunny.currenthealth <= 0)
                 {
@@ -928,7 +828,7 @@ int main()
             if (slime.currentmana >= 40)
             {
                 skill2(&slime, &spiderbunny);
-                HPspiderbunny(spiderbunny.currenthealth, spiderbunny.maxhealth);
+                HP(spiderbunny.currenthealth, spiderbunny.maxhealth);
                 slime.currentmana -= 40;
                 if (spiderbunny.currenthealth <= 0)
                 {
@@ -947,7 +847,7 @@ int main()
             if (slime.currentmana >= 70)
             {
                 skill3(&slime, &spiderbunny);
-                HPspiderbunny(spiderbunny.currenthealth, spiderbunny.maxhealth);
+                HP(spiderbunny.currenthealth, spiderbunny.maxhealth);
                 slime.currentmana -= 70;
                 if (pikachu.currenthealth <= 0)
                 {
@@ -980,7 +880,7 @@ int main()
         {
             printf("\nenemy turn\n");
             attack(&spiderbunny, &slime);
-            HPplayer(slime.currenthealth, slime.maxhealth);
+            HP(slime.currenthealth, slime.maxhealth);
             if (slime.currenthealth <= 0)
             {
                 printf("Player has been defeated!\n");
@@ -1002,12 +902,12 @@ int main()
     while (slime.currenthealth > 0 && eviltank.currenthealth > 0)
     {
         recoverHP(&slime, 5);
-        recoverMana(&slime, 15);
+        recoverMana(&slime, 5);
         lantai5();
-        HPplayer(slime.currenthealth, slime.maxhealth);
+        HP(slime.currenthealth, slime.maxhealth);
         playermana(slime.currentmana, slime.maxmana);
         printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-        HPeviltank(eviltank.currenthealth, eviltank.maxhealth);
+        HP(eviltank.currenthealth, eviltank.maxhealth);
         printf("====================== BATTLE ======================\n");
         printf("giliran mu\n");
         tampilkanInventory(inventory, jumlahitem);
@@ -1018,7 +918,7 @@ int main()
         {
         case 1:
             attack(&slime, &eviltank);
-            HPeviltank(eviltank.currenthealth, eviltank.maxhealth);
+            HP(eviltank.currenthealth, eviltank.maxhealth);
 
             if (eviltank.currenthealth <= 0)
             {
@@ -1032,7 +932,7 @@ int main()
             if (slime.currentmana >= 25)
             {
                 skill1(&slime, &eviltank);
-                HPeviltank(eviltank.currenthealth, eviltank.maxhealth);
+                HP(eviltank.currenthealth, eviltank.maxhealth);
                 slime.currentmana -= 25;
                 if (eviltank.currenthealth <= 0)
                 {
@@ -1051,7 +951,7 @@ int main()
             if (slime.currentmana >= 40)
             {
                 skill2(&slime, &eviltank);
-                HPeviltank(eviltank.currenthealth, eviltank.maxhealth);
+                HP(eviltank.currenthealth, eviltank.maxhealth);
                 slime.currentmana -= 40;
                 if (eviltank.currenthealth <= 0)
                 {
@@ -1070,7 +970,7 @@ int main()
             if (slime.currentmana >= 70)
             {
                 skill3(&slime, &eviltank);
-                HPeviltank(eviltank.currenthealth, eviltank.maxhealth);
+                HP(eviltank.currenthealth, eviltank.maxhealth);
                 slime.currentmana -= 70;
                 if (eviltank.currenthealth <= 0)
                 {
@@ -1104,7 +1004,7 @@ int main()
         {
             printf("\nenemy turn\n");
             attack(&eviltank, &slime);
-            HPplayer(slime.currenthealth, slime.maxhealth);
+            HP(slime.currenthealth, slime.maxhealth);
             if (slime.currenthealth <= 0)
             {
                 printf("Player has been defeated!\n");
